@@ -20,12 +20,12 @@ main(int argc, char *argv[])
 	XEvent ev;
 	Display *dpy;
 	Window rootwin;
+	int ch;
 
-	argv++;
-	argc--;
 	button = Button3;
-	if (*argv && (*argv)[0] == '-') {
-		switch ((*argv)[1]) {
+
+	while ((ch = getopt(argc, argv, "12345lmr")) != -1) {
+		switch (ch) {
 		case '1': case 'l': button = Button1; break;
 		case '2': case 'm': button = Button2; break;
 		case '3': case 'r': button = Button3; break;
@@ -35,13 +35,9 @@ main(int argc, char *argv[])
 			usage();
 			break;
 		}
-
-		if ((*argv)[2] != '\0')
-			usage();
-
-		argv++;
-		argc--;
 	}
+	argc -= optind;
+	argv += optind;
 
 	if (argc == 0)
 		usage();
